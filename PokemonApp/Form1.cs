@@ -33,6 +33,12 @@ namespace PokemonApp
 
         private void frmPokemons_Load(object sender, EventArgs e)
         {
+            cargar();
+
+        }
+
+        private void cargar()
+        {
             try
             {
                 PokemonNegocio pokemonNegocio = new PokemonNegocio();
@@ -46,7 +52,6 @@ namespace PokemonApp
 
                 MessageBox.Show(ex.ToString());
             }
-
         }
 
         private void dgvPokemons_SelectionChanged(object sender, EventArgs e)
@@ -59,6 +64,9 @@ namespace PokemonApp
         {
             frmNuevoPokemon frmNuevoPokemon = new frmNuevoPokemon();
             frmNuevoPokemon.ShowDialog();
+            cargar();
         }
+
+        
     }
 }

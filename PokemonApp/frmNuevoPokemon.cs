@@ -35,6 +35,7 @@ namespace PokemonApp
                 nuevo.Numero = int.Parse(txtNumero.Text);
                 nuevo.Nombre = txtNombre.Text;
                 nuevo.Descripcion = txtDescripcion.Text;
+                nuevo.UrlImagen = txtUrlImagen.Text;
                 nuevo.Tipo = (Elemento)cbTipo.SelectedItem;
                 nuevo.Debilidad = (Elemento)cbDebilidad.SelectedItem;
                 nuevopokemonNegocio.agregar(nuevo);
@@ -64,6 +65,22 @@ namespace PokemonApp
                 MessageBox.Show(ex.ToString());
             }
             
+        }
+
+        private void txtUrlImagen_Leave(object sender, EventArgs e)
+        {
+            CargarImagen(txtUrlImagen.Text);
+        }
+        private void CargarImagen(string urlImagen)
+        {
+            try
+            {
+                pbNuevoPokemon.Load(urlImagen);
+            }
+            catch (Exception)
+            {
+                pbNuevoPokemon.Load("https://www.shutterstock.com/image-vector/default-image-icon-vector-missing-260nw-2086941550.jpg");
+            }
         }
     }
 }
