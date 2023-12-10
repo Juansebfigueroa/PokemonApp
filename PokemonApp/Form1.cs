@@ -33,11 +33,19 @@ namespace PokemonApp
 
         private void frmPokemons_Load(object sender, EventArgs e)
         {
-            PokemonNegocio pokemonNegocio = new PokemonNegocio();
-            listaPokemon = pokemonNegocio.Listar();
-            dgvPokemons.DataSource = listaPokemon;
-            dgvPokemons.Columns["UrlImagen"].Visible = false;
-            cargarImagen(listaPokemon[0].UrlImagen);
+            try
+            {
+                PokemonNegocio pokemonNegocio = new PokemonNegocio();
+                listaPokemon = pokemonNegocio.Listar();
+                dgvPokemons.DataSource = listaPokemon;
+                dgvPokemons.Columns["UrlImagen"].Visible = false;
+                cargarImagen(listaPokemon[0].UrlImagen);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
 
         }
 
