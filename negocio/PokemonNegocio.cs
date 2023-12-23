@@ -22,7 +22,7 @@ namespace negocio
             {
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "Select Numero, Nombre, P.Descripcion, UrlImagen, E.Descripcion Tipo, D.Descripcion Debilidad From POKEMONS P, ELEMENTOS E, ELEMENTOS D Where E.Id = P.IdTipo And D.Id = P.IdDebilidad";
+                comando.CommandText = "Select Numero, Nombre, P.Descripcion, UrlImagen, E.Descripcion Tipo, D.Descripcion Debilidad, P.IdTipo, P.IdDebilidad, P.Id From POKEMONS P, ELEMENTOS E, ELEMENTOS D Where E.Id = P.IdTipo And D.Id = P.IdDebilidad";
                 comando.Connection = conexion;
 
                 conexion.Open();
@@ -31,6 +31,7 @@ namespace negocio
                 while (lector.Read())
                 {
                     Pokemon aux = new Pokemon();
+                    aux.Id = (int)lector["Id"];
                     aux.Numero = lector.GetInt32(0);
                     aux.Nombre = (string)lector["Nombre"];
                     aux.Descripcion = (string)lector["Descripcion"];
@@ -38,9 +39,10 @@ namespace negocio
                         aux.UrlImagen = (string)lector["UrlImagen"];
                     aux.Tipo = new Elemento();
                     aux.Tipo.Descripcion = (string)lector["Tipo"];
+                    aux.Tipo.Id = (int)lector["IdTipo"];
                     aux.Debilidad = new Elemento();
                     aux.Debilidad.Descripcion = (string)lector["Debilidad"];
-
+                    aux.Debilidad.Id = (int)lector["IdDebilidad"];
                     lista.Add(aux);
                 }
 
@@ -76,7 +78,28 @@ namespace negocio
             }
         }
 
-        public void modificar(Pokemon modificar) { }
+        public void modificar(Pokemon modificar)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("update POKEMONS set Numero = @numero, Nombre = @nombre, Descripcion = @descripcion, UrlImagen = @urlImagen, IdTipo = @idTipo, IdDebilidad = @idDebilidad Where Id = @id");
+                datos.setearParametros("@numero", modificar.Numero);
+                datos.setearParametros("@nombre", modificar.Nombre);
+                datos.setearParametros("@descripcion", modificar.Descripcion);
+                datos.setearParametros("@urlImagen", modificar.UrlImagen);
+                datos.setearParametros("@idTipo", modificar.Tipo.Id);
+                datos.setearParametros("@idDebilidad", modificar.Debilidad.Id);
+                datos.setearParametros("@id", modificar.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally { datos.cerrarConexion();}
+        }
 
     }
 }

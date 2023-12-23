@@ -44,6 +44,7 @@ namespace PokemonApp
                 PokemonNegocio pokemonNegocio = new PokemonNegocio();
                 listaPokemon = pokemonNegocio.Listar();
                 dgvPokemons.DataSource = listaPokemon;
+                dgvPokemons.Columns["Id"].Visible = false;
                 dgvPokemons.Columns["UrlImagen"].Visible = false;
                 cargarImagen(listaPokemon[0].UrlImagen);
             }
@@ -67,6 +68,14 @@ namespace PokemonApp
             cargar();
         }
 
-        
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Pokemon seleccionado;
+            seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;
+            
+            frmNuevoPokemon frmModificar = new frmNuevoPokemon(seleccionado);
+            frmModificar.ShowDialog();
+            cargar();
+        }
     }
 }
