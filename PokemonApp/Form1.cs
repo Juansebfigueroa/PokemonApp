@@ -44,8 +44,7 @@ namespace PokemonApp
                 PokemonNegocio pokemonNegocio = new PokemonNegocio();
                 listaPokemon = pokemonNegocio.Listar();
                 dgvPokemons.DataSource = listaPokemon;
-                dgvPokemons.Columns["Id"].Visible = false;
-                dgvPokemons.Columns["UrlImagen"].Visible = false;
+                ajustarColumnas();
                 cargarImagen(listaPokemon[0].UrlImagen);
             }
             catch (Exception ex)
@@ -54,11 +53,19 @@ namespace PokemonApp
                 MessageBox.Show(ex.ToString());
             }
         }
+        private void ajustarColumnas()
+        {
+            dgvPokemons.Columns["Id"].Visible = false;
+            dgvPokemons.Columns["UrlImagen"].Visible = false;
+        }
 
         private void dgvPokemons_SelectionChanged(object sender, EventArgs e)
         {
-            Pokemon pokemonSeleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;
-            cargarImagen(pokemonSeleccionado.UrlImagen);
+            if (dgvPokemons.CurrentRow != null)
+            {
+                Pokemon pokemonSeleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;
+                cargarImagen(pokemonSeleccionado.UrlImagen);
+            }
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -108,6 +115,23 @@ namespace PokemonApp
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void txtFiltroRapido_TextChanged(object sender, EventArgs e)
+        {
+            List<Pokemon> listaFiltrada;
+            if(txtFiltroRapido.Text.Length >= 2)
+            {
+                listaFiltrada = listaPokemon.FindAll(x => x.Nombre.ToLower().Contains(txtFiltroRapido.Text.ToLower()) || x.Tipo.Descripcion.ToLower().Contains(txtFiltroRapido.Text.ToLower()));
+            }
+            else
+            {
+                listaFiltrada = listaPokemon;
+            }
+            dgvPokemons.DataSource = null;
+            dgvPokemons.DataSource = listaFiltrada;
+            ajustarColumnas();
+
         }
     }
 }

@@ -34,6 +34,8 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBorrarLogico = new System.Windows.Forms.Button();
             this.btnBorrarFisico = new System.Windows.Forms.Button();
+            this.lblFiltroRapido = new System.Windows.Forms.Label();
+            this.txtFiltroRapido = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPokemons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.SuspendLayout();
@@ -45,14 +47,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPokemons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPokemons.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvPokemons.Location = new System.Drawing.Point(24, 32);
+            this.dgvPokemons.Location = new System.Drawing.Point(24, 59);
             this.dgvPokemons.Margin = new System.Windows.Forms.Padding(2);
             this.dgvPokemons.MultiSelect = false;
             this.dgvPokemons.Name = "dgvPokemons";
             this.dgvPokemons.RowHeadersWidth = 51;
             this.dgvPokemons.RowTemplate.Height = 24;
             this.dgvPokemons.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPokemons.Size = new System.Drawing.Size(565, 214);
+            this.dgvPokemons.Size = new System.Drawing.Size(565, 187);
             this.dgvPokemons.TabIndex = 0;
             this.dgvPokemons.SelectionChanged += new System.EventHandler(this.dgvPokemons_SelectionChanged);
             // 
@@ -110,11 +112,30 @@
             this.btnBorrarFisico.UseVisualStyleBackColor = true;
             this.btnBorrarFisico.Click += new System.EventHandler(this.btnBorrarFisico_Click);
             // 
+            // lblFiltroRapido
+            // 
+            this.lblFiltroRapido.AutoSize = true;
+            this.lblFiltroRapido.Location = new System.Drawing.Point(30, 25);
+            this.lblFiltroRapido.Name = "lblFiltroRapido";
+            this.lblFiltroRapido.Size = new System.Drawing.Size(75, 15);
+            this.lblFiltroRapido.TabIndex = 6;
+            this.lblFiltroRapido.Text = "Filtro rapido:";
+            // 
+            // txtFiltroRapido
+            // 
+            this.txtFiltroRapido.Location = new System.Drawing.Point(126, 25);
+            this.txtFiltroRapido.Name = "txtFiltroRapido";
+            this.txtFiltroRapido.Size = new System.Drawing.Size(264, 20);
+            this.txtFiltroRapido.TabIndex = 7;
+            this.txtFiltroRapido.TextChanged += new System.EventHandler(this.txtFiltroRapido_TextChanged);
+            // 
             // frmPokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(823, 300);
+            this.Controls.Add(this.txtFiltroRapido);
+            this.Controls.Add(this.lblFiltroRapido);
             this.Controls.Add(this.btnBorrarFisico);
             this.Controls.Add(this.btnBorrarLogico);
             this.Controls.Add(this.btnModificar);
@@ -128,6 +149,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPokemons)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -139,6 +161,8 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnBorrarLogico;
         private System.Windows.Forms.Button btnBorrarFisico;
+        private System.Windows.Forms.Label lblFiltroRapido;
+        private System.Windows.Forms.TextBox txtFiltroRapido;
     }
 }
 
