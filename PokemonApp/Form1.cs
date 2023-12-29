@@ -34,7 +34,9 @@ namespace PokemonApp
         private void frmPokemons_Load(object sender, EventArgs e)
         {
             cargar();
-
+            cbCampo.Items.Add("Numero");
+            cbCampo.Items.Add("Nombre"); 
+            cbCampo.Items.Add("Tipo");
         }
 
         private void cargar()
@@ -133,5 +135,45 @@ namespace PokemonApp
             ajustarColumnas();
 
         }
+
+        private void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            PokemonNegocio negocio = new PokemonNegocio();
+            string campo = cbCampo.SelectedItem.ToString();
+            string criterio = cbCriterio.SelectedItem.ToString();
+            string filtro = txtFiltro.Text;
+            dgvPokemons.DataSource = negocio.filtrar(campo, criterio, filtro);
+           
+        }
+
+        private void cbCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string campo = cbCampo.SelectedItem.ToString();
+            switch (campo)
+            {
+                case "Numero":
+                    cbCriterio.Items.Clear();
+                    cbCriterio.Items.Add("Igual a");
+                    cbCriterio.Items.Add("Mayor a");
+                    cbCriterio.Items.Add("Menor a");
+                    break;
+                case "Nombre":
+                    cbCriterio.Items.Clear();
+                    cbCriterio.Items.Add("Contiene");
+                    cbCriterio.Items.Add("Empieza con");
+                    cbCriterio.Items.Add("Termina con");
+                    break;
+                case "Tipo":
+                    cbCriterio.Items.Clear();
+                    cbCriterio.Items.Add("Fuego");
+                    cbCriterio.Items.Add("Planta");
+                    cbCriterio.Items.Add("Agua");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using dominio;
+using System.Collections;
 
 namespace negocio
 {
@@ -129,6 +130,95 @@ namespace negocio
 
                 throw ex;
             } 
+        }
+
+        public List<Pokemon> filtrar(string campo, string criterio, string filtro)
+        {
+            List<Pokemon> listaFiltrada = new List<Pokemon>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "Select Numero, Nombre, P.Descripcion, UrlImagen, E.Descripcion Tipo, D.Descripcion Debilidad, P.IdTipo, P.IdDebilidad, P.Id From POKEMONS P, ELEMENTOS E, ELEMENTOS D Where E.Id = P.IdTipo And D.Id = P.IdDebilidad And P.Activo = 1 And ";
+                
+                switch (campo)
+                {
+                    case "Numero":
+                        switch (criterio)
+                        {
+                            case "Igual a":
+                                consulta += "Numero = " + filtro;
+                                break;
+                            case "Mayor a":
+                                consulta += "Numero > " + filtro;
+                                break;
+                            case "Menor a":
+                                consulta += "Numero < " + filtro;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "Nombre":
+                        switch (criterio)
+                        {
+                            case "Contiene":
+                                consulta += "Nombre like '%" + filtro + "%'";
+                                break;
+                            case "Empieza con":
+                                consulta += "Nombre like '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += "Nombre like '%" + filtro + "'";
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "Tipo":
+                        switch (criterio)
+                        {
+                            case "Fuego":
+                                consulta += "E.Descripcion like 'Fuego'";
+                                break;
+                            case "Planta":
+                                consulta += "E.Descripcion like 'Planta'";
+                                break;
+                            case "Agua":
+                                consulta += "E.Descripcion like 'Agua'";
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Pokemon aux = new Pokemon();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Numero = datos.Lector.GetInt32(0);
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+                    aux.Tipo = new Elemento();
+                    aux.Tipo.Descripcion = (string)datos.Lector["Tipo"];
+                    aux.Tipo.Id = (int)datos.Lector["IdTipo"];
+                    aux.Debilidad = new Elemento();
+                    aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+                    aux.Debilidad.Id = (int)datos.Lector["IdDebilidad"];
+                    listaFiltrada.Add(aux);
+                }
+                return listaFiltrada;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
